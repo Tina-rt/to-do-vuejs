@@ -3,44 +3,44 @@ import bootstrap from 'bootstrap/dist/js/bootstrap.js';
 import { useTodoStore } from '../stores/todostore';
 
 
+
 export default {
     props: {
         index: {
             type: Number
         },
+        current_todo: {
+            type: Object
+        },
         open_modal: {
             type: Boolean
         }
     },
+
     data() {
         let todoStore = useTodoStore();
         return {
             todoStore,
-            current_todo: {} ,
             modal: null,
-            
-            
+
+
         }
     },
-    mounted() {
-        this.current_todo = {...this.todoStore.list_todo[this.index]};
-    },
-    methods:{
-        save_change(){
-            console.log(this.current_todo);
-            this.todoStore.modifyTodo(this.index, this.current_todo );
-            this.$emit('close');
+    
+    methods: {
+        save_change() {
+            this.todoStore.modifyTodo(this.index, this.current_todo);
         }
 
     },
+
     watch: {
         open_modal() {
             let modal = new bootstrap.Modal(document.getElementById('todoModal'), { keyboard: false });
             modal.toggle();
-            console.log("ok")
         },
-        
-        
+
+
     }
 }
 </script>
@@ -54,20 +54,22 @@ export default {
                     <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <input type="text" class="form-control" placeholder="" v-model="current_todo.todo">
+                    <input type="text" class="form-control" placeholder="" v-model="current_todo.todo"
+                        @keyup.enter="save_change">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" @click="save_change" data-bs-dismiss="modal">Save changes</button>
+                    <button type="button" class="btn btn-primary" @click="save_change" data-bs-dismiss="modal">Save
+                        changes</button>
                 </div>
             </div>
         </div>
     </div>
 </template>
 <style scoped>
-.modal-content, .modal-body{
+.modal-content,
+.modal-body {
 
     background-color: var(--color-background-soft);
-    color: var(--color-text) ;
-}
-</style>
+    color: var(--color-text);
+}</style>

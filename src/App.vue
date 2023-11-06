@@ -37,11 +37,10 @@ export default {
     click_todo(index) {
       this.index_edit = index;
       this.opening_modal = !this.opening_modal;
+      console.log(this.index_edit);
 
     },
-    close_modal() {
-      this.opening_modal = !this.opening_modal;
-    },
+    
     handle_deleting(index) {
       this.todoStore.removeTodo(index);
     },
@@ -57,7 +56,7 @@ export default {
 
 <template>
   <main>
-    <Modal :open_modal="opening_modal" :index="index_edit" @close="" />
+    <Modal :open_modal="opening_modal" :index="index_edit" :current_todo="{...todoStore.list_todo[index_edit]}" />
     <Toast :toast_opener="toast_opener" :message="toast_message"/>
     
     <div class="header">
@@ -95,7 +94,7 @@ export default {
           </div>
 
         </div>
-        
+
         <div class="tab-pane fade" id="v-completedtask" role="tabpanel" aria-labelledby="v-completedtask-tab">
 
           <div class="list-todo mt-4">
